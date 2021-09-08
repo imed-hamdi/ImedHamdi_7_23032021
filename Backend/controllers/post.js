@@ -35,9 +35,17 @@ exports.update = function (req, res) {
   }
 };
 exports.delete = function (req, res) {
-  Post.delete(req.params.id, function (err, post) {
-    if (err)
+  let body = req.body;
+  let userid = body.userId;
+  let userlevel = body.userLevel
+  Post.delete(req.params.id, userid, userlevel, function (err, post) {
+    if (err) {
       res.send(err);
-    res.json({ error: false, message: 'post successfully deleted' });
-  });
-};
+    } else if (post.affectedRows === 1) {
+        return res.json({ message: 'valide' })
+      } else {
+        return res.json({ message: ' NOt Valide' })
+      }
+    res.send();
+  })
+}
