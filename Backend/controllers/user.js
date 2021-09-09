@@ -22,7 +22,7 @@ exports.login = function (req, res) {
 
     } else {
       if (results.length > 0) {
-         
+
         res.status(200).json({
           userId: body.id,
           token: jwt.sign(
@@ -31,9 +31,9 @@ exports.login = function (req, res) {
             { expiresIn: '24h' }
           ),
           message: "Connexion Valide",
-          
+         user : results[0]
         });
-        
+
       } else {
         return res.status(500).json({ message: " Email/Password Invalid" })
       }
@@ -51,8 +51,7 @@ exports.Signup = function (req, res) {
   body.password = cryptoJS.MD5(body.password);
   User.Signup(body, (err, result) => {
     if (err) {
-      console.log(err);
-      res.json({ message: " Invalid User" })
+      res.json({ message: " Invalid User", error: err })
     } else {
       res.json({ message: "User successfully added" });
 

@@ -82,7 +82,7 @@ export default {
           sessionStorage.setItem("token", response.data.token);
         })
         .catch((e) => {
-        this.error = "Veuillez vérifier tout les champs .." + e;
+        this.error = "Veuillez vérifier tout les champs ..ou" + e;
         });
     },
   },

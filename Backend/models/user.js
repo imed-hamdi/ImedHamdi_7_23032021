@@ -34,7 +34,7 @@ User.login = function (useremail, userpassword,result) {
 User.Signup = function (newUser, result) {
   dbConn.query("INSERT INTO users set ?", newUser, function (err, res) {
     if (err) {
-      console.log("error: ", err);
+    
       result(err, null);
     }
     else {

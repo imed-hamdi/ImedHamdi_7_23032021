@@ -59,15 +59,13 @@ export default {
         })
         .then((response) => {
           //envoi du token
-          sessionStorage.setItem("token", response.data.token);
-          sessionStorage.setItem(
-            "userName",
-            response.data.results[0].firstName
-          );
-          sessionStorage.setItem("userId", response.data.results[0].id);
-          sessionStorage.setItem("userLevel", response.data.results[0].Level);
+          sessionStorage.setItem("token",response.data.token);
+          sessionStorage.setItem("userName",response.data.user.firstName);
+            sessionStorage.setItem("userId",response.data.user.id);
+                sessionStorage.setItem("userLevel",response.data.user.Level);
 
-          console.log(response.data.results[0].firstName);
+
+    
         })
         .catch((e) => {
           this.error = "Invalid username/password!" + e;
