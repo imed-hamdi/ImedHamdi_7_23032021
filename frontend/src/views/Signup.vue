@@ -80,7 +80,9 @@ export default {
         .then((response) => {
           //envoi du token
           sessionStorage.setItem("token", response.data.token);
+          
         })
+        .then(this.$router.push("/Login"))
         .catch((e) => {
         this.error = "Veuillez vérifier tout les champs ..ou" + e;
         });

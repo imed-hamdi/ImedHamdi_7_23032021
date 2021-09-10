@@ -24,7 +24,6 @@ exports.login = function (req, res) {
       if (results.length > 0) {
 
         res.status(200).json({
-          userId: body.id,
           token: jwt.sign(
             { userId: body.id },
             'RANDOM_TOKEN_SECRET',

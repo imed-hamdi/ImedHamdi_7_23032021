@@ -3,7 +3,6 @@
 const Post = require('../models/post');
 exports.findAll = function (req, res) {
   Post.findAll(function (err, post) {
-    console.log('controller')
     if (err)
       res.send(err);
     console.log('res', post);

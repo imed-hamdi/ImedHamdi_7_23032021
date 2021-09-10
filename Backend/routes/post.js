@@ -3,7 +3,7 @@ const validityPost = require('../middelware/validityPost');
 const auth = require('../middelware/auth');
 const router = require('express').Router();
 const postController = require('../controllers/post');
-router.get('/', auth, postController.findAll);
+router.get('/', auth,postController.findAll);
 router.post('/', auth,validityPost, postController.create);
 router.put('/:id',auth,validityPost, postController.update);
 router.delete('/:id',auth, postController.delete);

@@ -59,13 +59,11 @@ export default {
         })
         .then((response) => {
           //envoi du token
-          sessionStorage.setItem("token",response.data.token);
-          sessionStorage.setItem("userName",response.data.user.firstName);
-            sessionStorage.setItem("userId",response.data.user.id);
-                sessionStorage.setItem("userLevel",response.data.user.Level);
-
-
-    
+          sessionStorage.setItem("token", response.data.token);
+          sessionStorage.setItem("userName", response.data.user.firstName);
+          sessionStorage.setItem("userId", response.data.user.id);
+          sessionStorage.setItem("userLevel", response.data.user.Level);
+          window.location.href = `/Accueil?id=${response.data.user.id}`;
         })
         .catch((e) => {
           this.error = "Invalid username/password!" + e;
