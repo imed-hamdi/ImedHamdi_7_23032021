@@ -1,21 +1,20 @@
 <template>
   <div id="app">
     <Header />
-    
+
     <router-view />
   </div>
 </template>
 
 <script>
 // import Home from '@/views/Home.vue'
-import Header from '@/components/header.vue'
+import Header from "@/components/header.vue";
 export default {
- name :'App',
- components :{
-   
-   Header,
- }
-}
+  name: "App",
+  components: {
+    Header,
+  },
+};
 </script>
 <style lang="scss">
 #app {
@@ -27,8 +26,6 @@ export default {
 }
 
 #nav {
-  padding: 30px;
-
   a {
     font-weight: bold;
     color: #2c3e50;

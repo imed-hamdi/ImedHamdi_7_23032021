@@ -26,7 +26,7 @@
           placeholder="Entrez votre mot de passe"
         />
       </div>
-      <button v-on:click="seConnecter">Se Connecter</button> <br />
+      <button  class="btn btn-primary" v-on:click="seConnecter">Se Connecter</button> <br />
       <br />
       <p>{{ error }}</p>
     </form>

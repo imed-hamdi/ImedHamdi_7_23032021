@@ -1,13 +1,11 @@
 <template>
   <div>
-  
-  
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
         <img src="../assets/icon-left-font-monochrome-black.png" alt="" />
         <h1 class="display-4">Bienvenue</h1>
         <p class="lead">
-          Ceci c'est un réseau social interne pour les employés de Groupomania
+          Ceci est un réseau social interne pour les employés de Groupomania
         </p>
       </div>
     </div>
@@ -18,7 +16,6 @@
 
 export default {
   name: "Home",
- 
 };
 </script>
  
@@ -37,4 +34,5 @@ img {
 .jumbotron {
   background-color: white;
 }
+
 </style>

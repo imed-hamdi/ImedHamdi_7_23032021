@@ -16,7 +16,7 @@ exports.create = function (req, res) {
   Post.create(body, (err, results) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ message: " Invalid" })
+      return res.status(400).json({ error :err, message: " Invalid" })
     } else {
       return res.status(201).json({ message: "Succes" })
     }

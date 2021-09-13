@@ -1,21 +1,51 @@
 <template>
-  <div class="postList">
+  <div class="card text-center">
+    <div id="create">
+      <createPost />
+    </div>
     <div v-for="post in posts" :key="post.id">
-      <h1>{{ post.title }}</h1>
-      <p>{{ post.contained }}</p>
+      <hr />
+      <div class="card-body">
+        <h5 class="card-title">{{ post.title }}</h5>
+        <p class="card-text">
+          {{ post.contained }}
+        </p>
+        <div class="card-footer text-muted">{{ time(post.dateAdd) }}</div>
+        <button type="button" class="btn btn-danger">Supprimer</button>
+        <button type="button" class="btn btn-primary">Modifier</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import createPost from "@/components/createPost.vue";
 export default {
   name: "Accueil",
+  components: {
+    createPost,
+  },
 
   data() {
     return {
       posts: null,
     };
+  },
+  methods: {
+    time(dateAdd) {
+      const options = {
+        weekday: "short",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour :"numeric",
+        minute :"numeric"
+      };
+let date =new Date(dateAdd)
+
+      return date.toLocaleDateString("fr-FR", options);
+    },
   },
   //récupération des posts depuis la BDD via axios
   created() {
@@ -29,18 +59,33 @@ export default {
       })
       .get("http://localhost:3000/api/posts")
       .then((response) => {
-        console.log(response);
         this.posts = response.data;
-        sessionStorage.setItem("post", response.data.length);
       })
       .catch((error) => console.log(error));
   },
 };
 </script>
 
-<style scoped>
-.postList {
-  width: 80%;
+<style >
+button {
+  margin: 1vw;
+}
+.card {
   margin: auto;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+}
+.card-body {
+  width: 100%;
+}
+#create {
+  box-shadow: 8px 9px 16px 4px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 8px 9px 16px 4px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 8px 9px 16px 4px #bc4c54;
+  border-radius: 10px;
+  width: 80%;
+  padding: 1vw;
+  margin-top: 1vw;
 }
 </style>

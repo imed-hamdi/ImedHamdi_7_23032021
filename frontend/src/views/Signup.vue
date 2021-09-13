@@ -46,7 +46,7 @@
           placeholder="Entrez votre mot de passe"
         />
       </div>
-      <button v-on:click="inscrire">S'inscrire</button> <br />
+      <button  class="btn btn-primary" v-on:click="inscrire">S'inscrire</button> <br />
       <br />
       <p>{{ error }}</p>
     </form>
