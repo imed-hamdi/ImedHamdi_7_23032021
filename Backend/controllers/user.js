@@ -70,11 +70,11 @@ exports.update = function (req, res) {
   const body = req.body;
   body.password = cryptoJS.MD5(body.password).toString();
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
-    res.status(400).send({ error: true, message: 'Please provide all required field' });
+    res.json({ message: 'Please provide all required field' });
   } else {
     User.update(req.params.id, new User(req.body), function (err, user) {
       if (err) throw err;
-      res.json({ error: false, message: 'User successfully updated' });
+      res.json({ message: 'User successfully updated' });
     });
   }
 };
@@ -82,6 +82,6 @@ exports.delete = function (req, res) {
   User.delete(req.params.id, function (err, user) {
     if (err)
       res.send(err);
-    res.json({ error: false, message: 'user successfully deleted' });
+    res.json({ message: 'user successfully deleted' });
   });
 };

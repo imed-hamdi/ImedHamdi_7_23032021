@@ -1,6 +1,6 @@
 <template>
   <div class="card text-center">
-    <div id="create">
+      <div id="create">
       <createPost />
     </div>
     <div v-for="post in posts" :key="post.id">
@@ -10,8 +10,15 @@
         <p class="card-text">
           {{ post.contained }}
         </p>
+        <span id="postuserId">{{ post.userId }}</span>
         <div class="card-footer text-muted">{{ time(post.dateAdd) }}</div>
-        <button type="button" class="btn btn-danger">Supprimer</button>
+        <button
+          id="btnSupp"
+          type="button"
+          class="btn btn-danger"
+        >
+          Supprimer
+        </button>
         <button type="button" class="btn btn-primary">Modifier</button>
       </div>
     </div>
@@ -21,10 +28,14 @@
 <script>
 import axios from "axios";
 import createPost from "@/components/createPost.vue";
+
+
 export default {
   name: "Accueil",
   components: {
     createPost,
+
+
   },
 
   data() {
@@ -33,20 +44,21 @@ export default {
     };
   },
   methods: {
+    
     time(dateAdd) {
       const options = {
         weekday: "short",
         year: "numeric",
         month: "long",
         day: "numeric",
-        hour :"numeric",
-        minute :"numeric"
+        hour: "numeric",
+        minute: "numeric",
       };
-let date =new Date(dateAdd)
-
+      let date = new Date(dateAdd);
       return date.toLocaleDateString("fr-FR", options);
     },
   },
+
   //récupération des posts depuis la BDD via axios
   created() {
     const TOKEN = sessionStorage.getItem("token");
@@ -88,4 +100,10 @@ button {
   padding: 1vw;
   margin-top: 1vw;
 }
+.card-title{
+  color: #bc4c54;
+  text-decoration: underline #d2646b;
+  text-transform: uppercase;
+}
+
 </style>

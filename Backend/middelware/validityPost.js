@@ -1,7 +1,7 @@
 module.exports = (req, res, next) => {
 
 
-    const regexText = /^([a-zA-Z ]){5,400}$/;
+    const regexText =/^(?=.*[A-Za-z0-9d@"',;:.'(-è__çà)=+&é$!%*#?&])/;
 
     if (regexText.test(req.body.title)) {
         if (regexText.test(req.body.contained)) {

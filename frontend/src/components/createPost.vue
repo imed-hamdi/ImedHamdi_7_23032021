@@ -3,7 +3,7 @@
     <h3>Créer une publication :</h3>
     <form>
       <div class="form-group">
-        <label>Title : </label>
+        <label>Titre  </label>
         <input
           type="text"
           class="form-control"
@@ -14,7 +14,7 @@
       </div>
 
       <div class="form-group">
-        <label>Post : </label>
+        <label>Post  </label>
         <textarea
           v-model="contained"
           class="form-control"
@@ -24,7 +24,7 @@
         >
         </textarea>
       </div>
-
+    </form>
       <button
         v-on:click="createPost"
         class="btn btn-primary btn-block"
@@ -33,7 +33,6 @@
         Ajouter
       </button>
       <p>{{ error }}</p>
-    </form>
   </div>
 </template>
 
@@ -52,9 +51,7 @@ export default {
   methods: {
     createPost() {
       const TOKEN = sessionStorage.getItem("token");
-      const query = window.location.search;
-      const url = new URLSearchParams(query);
-      const id = url.get("id");
+      const id = sessionStorage.getItem("userId");
       axios
         .create({
           headers: {
@@ -85,9 +82,10 @@ h3 {
   color: #bc4c54;
 }
 button {
-  width: 30%;
+  width: max-content;
   border-radius: 10px;
   margin: auto;
+  display: flex;
 }
 form {
   width: 80%;
@@ -107,5 +105,6 @@ textarea {
 }
 label {
   width: max-content;
+  margin-right: 1vw;
 }
 </style>

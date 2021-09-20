@@ -2,7 +2,7 @@
   <div>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <img src="../assets/icon-left-font-monochrome-black.png" alt="" />
+        <img id="logoHome" src="../assets/icon-left-font-monochrome-black.png" alt="" />
         <h1 class="display-4">Bienvenue</h1>
         <p class="lead">
           Ceci est un réseau social interne pour les employés de Groupomania
@@ -27,9 +27,12 @@ a:hover {
   text-decoration: none;
   color: #d2646b;
 }
-img {
+#logoHome{
   border-radius: 5%;
-  width: auto;
+  width:80%;
+}
+img{
+  border-radius: 5%;
 }
 .jumbotron {
   background-color: white;
