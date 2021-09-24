@@ -52,6 +52,7 @@ export default {
     createPost() {
       const TOKEN = sessionStorage.getItem("token");
       const id = sessionStorage.getItem("userId");
+      const username =sessionStorage.getItem("userName")
       axios
         .create({
           headers: {
@@ -63,6 +64,7 @@ export default {
           title: this.title,
           contained: this.contained,
           userId: id,
+          userName : username,
         })
         .then((response) => {
           console.log(response);

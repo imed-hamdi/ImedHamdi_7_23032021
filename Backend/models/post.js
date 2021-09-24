@@ -19,13 +19,13 @@ Post.create = function (newPost, result) {
     });
 };
 Post.findAll = function (result) {
-    dbConn.query("Select * from posts", function (err, res) {
+    dbConn.query("Select * from posts ORDER BY timestamp(dateAdd) DESC", function (err, res) {
         if (err) {
             console.log("error: ", err);
             result(null, err);
         }
         else {
-            console.log('posts : ', res);
+            
             result(null, res);
         }
     });
@@ -41,30 +41,14 @@ Post.update = function (id, post, result) {
     });
 };
 
-Post.delete = function (id, userid, userlevel, results) {
-    if (userlevel === 1) {
-
-        dbConn.query("DELETE FROM posts WHERE id = ? ", [id], function (err, res) {
-            if (err) {
-                console.log("error: ", err);
-                results(null, err)
-            } else
-                results(null, res)
-            return results
-
-        });
-
-
-    } else {
-        dbConn.query("DELETE FROM posts WHERE id = ? AND userId = ? ", [id, userid], function (err, res) {
-            if (err) {
-                console.log("error: ", err);
-                results(null, err)
-            } else
-                results(null, res)
-            return results
-
-        });
-    }
+Post.delete = function (id,result) {
+    dbConn.query("DELETE FROM posts WHERE id = ?", [id], (err, results) => {             
+        if(err) {
+            console.log(err);
+            result(err, null);
+        } else {
+            result(null, results);
+        }
+    });   
 };
 module.exports = Post;

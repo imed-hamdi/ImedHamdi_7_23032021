@@ -1,25 +1,37 @@
 <template>
   <div class="card text-center">
-      <div id="create">
+    <div id="create">
       <createPost />
     </div>
-    <div v-for="post in posts" :key="post.id">
-      <hr />
+    <div id="container" v-for="post in posts" :key="post.id">
       <div class="card-body">
-        <h5 class="card-title">{{ post.title }}</h5>
-        <p class="card-text">
-          {{ post.contained }}
-        </p>
-        <span id="postuserId">{{ post.userId }}</span>
+        <div id="titleContained">
+          <h5 id="title" class="card-title">{{ post.title }}</h5>
+          <p id="contained" class="card-text">
+            {{ post.contained }}
+          </p>
+        </div>
+        <span class="postuserId">{{ post.userId }}</span>
+        <span id="postUserName">{{ post.userName }}</span>
         <div class="card-footer text-muted">{{ time(post.dateAdd) }}</div>
-        <button
-          id="btnSupp"
-          type="button"
-          class="btn btn-danger"
-        >
-          Supprimer
-        </button>
-        <button type="button" class="btn btn-primary">Modifier</button>
+        <div id="btns" v-if="post.userId == userId">
+          <button
+            v-on:click="deletePost(post.id)"
+            type="button"
+            class="btn btn-danger btnSupp"
+          >
+            Supprimer
+          </button>
+        
+          <button
+            id="validerModif"
+            type="button"
+            class="btn btn-primary"
+            v-on:click="modifierPost"
+          >
+            Valider
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -29,22 +41,24 @@
 import axios from "axios";
 import createPost from "@/components/createPost.vue";
 
-
 export default {
   name: "Accueil",
   components: {
     createPost,
-
-
   },
+   props: ["post"],
 
   data() {
     return {
       posts: null,
+      error: "",
+      userId: sessionStorage.getItem("userId"),
+      userLevel: sessionStorage.getItem("userLevel"),
+    
     };
   },
+
   methods: {
-    
     time(dateAdd) {
       const options = {
         weekday: "short",
@@ -56,6 +70,47 @@ export default {
       };
       let date = new Date(dateAdd);
       return date.toLocaleDateString("fr-FR", options);
+    },
+
+    modifierPost(id) {
+      const TOKEN = sessionStorage.getItem("token");
+      const userId = parseInt(sessionStorage.getItem("userId"));
+      
+      axios
+
+        .create({
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + TOKEN,
+          },
+        })
+        .put(`http://localhost:3000/api/posts/${id}`, {
+          title: "",
+          contained: "",
+        })
+        .then((response) => {
+          alert(response.error);
+        })
+        .catch((err) => console.log(err));
+      window.location.href = `/Accueil?id=${userId}`;
+    },
+
+    deletePost(id) {
+      const TOKEN = sessionStorage.getItem("token");
+      const userId = parseInt(sessionStorage.getItem("userId"));
+      axios
+
+        .delete(`http://localhost:3000/api/posts/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + TOKEN,
+          },
+        })
+        .then((response) => {
+          alert(response.data.message);
+        })
+        .catch((err) => console.log(err));
+      window.location.href = `/Accueil?id=${userId}`;
     },
   },
 
@@ -71,6 +126,7 @@ export default {
       })
       .get("http://localhost:3000/api/posts")
       .then((response) => {
+        console.log(response.data);
         this.posts = response.data;
       })
       .catch((error) => console.log(error));
@@ -89,7 +145,12 @@ button {
   align-items: center;
 }
 .card-body {
-  width: 100%;
+  width: 50%;
+  border-radius: 20px;
+  margin-top: 1vw;
+  box-shadow: -5px 6px 16px -2px rgba(0, 0, 0, 0.78);
+  -webkit-box-shadow: -5px 6px 16px -2px rgba(0, 0, 0, 0.78);
+  -moz-box-shadow: -5px 6px 16px -2px rgba(0, 0, 0, 0.78);
 }
 #create {
   box-shadow: 8px 9px 16px 4px rgba(0, 0, 0, 0.6);
@@ -100,10 +161,32 @@ button {
   padding: 1vw;
   margin-top: 1vw;
 }
-.card-title{
+.card-title {
   color: #bc4c54;
   text-decoration: underline #d2646b;
   text-transform: uppercase;
 }
-
+.card-text {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+#container {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#postUserName {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: larger;
+  font-style: oblique;
+  text-transform: capitalize;
+}
+.postuserId {
+  display: none;
+}
+#validerModif {
+  display: none;
+}
 </style>

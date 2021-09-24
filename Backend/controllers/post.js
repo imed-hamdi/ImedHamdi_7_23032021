@@ -5,7 +5,7 @@ exports.findAll = function (req, res) {
   Post.findAll(function (err, post) {
     if (err)
       res.send(err);
-    console.log('res', post);
+
     res.send(post);
   });
 };
@@ -16,7 +16,7 @@ exports.create = function (req, res) {
   Post.create(body, (err, results) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error :err, message: " Invalid" })
+      return res.status(400).json({ error: err, message: " Invalid" })
     } else {
       return res.status(201).json({ message: "Succes" })
     }
@@ -34,17 +34,13 @@ exports.update = function (req, res) {
   }
 };
 exports.delete = function (req, res) {
-  let body = req.body;
-  let userid = body.userId;
-  let userlevel = body.userLevel
-  Post.delete(req.params.id, userid, userlevel, function (err, post) {
+  const id = req.params.id;
+  Post.delete(id, (err, results) => {
     if (err) {
       res.send(err);
-    } else if (post.affectedRows === 1) {
-        return res.json({ message: 'valide' })
-      } else {
-        return res.json({ message: ' NOt Valide' })
-      }
-    res.send();
-  })
+    } else {
+      return res.status(201).json({ message: "Succes" })
+
+    }
+  });
 }

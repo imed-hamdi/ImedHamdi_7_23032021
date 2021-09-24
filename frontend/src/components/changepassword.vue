@@ -43,6 +43,7 @@ export default {
           console.log(response.data.message);
           this.erreur = response.data.message;
           alert("Votre mot de passe vient d'etre changé");
+          window.location.href = `/Accueil?id=${id}`;
         })
         .catch((error) => console.log(error));
     },
