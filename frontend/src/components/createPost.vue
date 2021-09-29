@@ -27,7 +27,7 @@
     </form>
       <button
         v-on:click="createPost"
-        class="btn btn-primary btn-block"
+        class="btn btn-danger btn-block"
         title="poster"
       >
         Ajouter

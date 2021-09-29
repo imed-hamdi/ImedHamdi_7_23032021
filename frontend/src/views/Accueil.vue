@@ -1,37 +1,47 @@
 <template>
-  <div class="card text-center">
+  <div id="body" class="card text-center">
     <div id="create">
       <createPost />
     </div>
     <div id="container" v-for="post in posts" :key="post.id">
+
       <div class="card-body">
-        <div id="titleContained">
-          <h5 id="title" class="card-title">{{ post.title }}</h5>
+        <!-- <div id="modify">
+        <modifyPost />
+        </div> -->
+        <div id="carte">
+          <h4 id="title" class="card-title">
+            {{ post.title }}
+          </h4>
           <p id="contained" class="card-text">
             {{ post.contained }}
           </p>
         </div>
-        <span class="postuserId">{{ post.userId }}</span>
-        <span id="postUserName">{{ post.userName }}</span>
-        <div class="card-footer text-muted">{{ time(post.dateAdd) }}</div>
-        <div id="btns" v-if="post.userId == userId">
-          <button
-            v-on:click="deletePost(post.id)"
-            type="button"
-            class="btn btn-danger btnSupp"
-          >
-            Supprimer
-          </button>
-        
-          <button
-            id="validerModif"
-            type="button"
-            class="btn btn-primary"
-            v-on:click="modifierPost"
-          >
-            Valider
-          </button>
+        <span class="postuserId">{{ post.userId }} </span>
+
+        <hr />
+        <div class="dateadd">
+          <span id="postUserName">{{ post.userName }}</span>
+          {{ time(post.dateAdd) }}
         </div>
+        <hr />
+
+        <button
+          v-if="post.userId == userId || userLevel == '487f7b22f68312d2c1bbc93b1aea445b'"
+          v-on:click="deletePost(post.id)"
+          type="button"
+          class="btn btn-danger btnSupp"
+        >
+          Supprimer
+        </button>
+        <button
+          v-if="post.userId == userId"
+          v-on:click="modifierPost(post.id)"
+          type="button"
+          class="btn btn-primary btnModif"
+        >
+          Modifier
+        </button>
       </div>
     </div>
   </div>
@@ -40,21 +50,26 @@
 <script>
 import axios from "axios";
 import createPost from "@/components/createPost.vue";
+// import modifyPost from "@/components/modifyPost.vue";
+ 
 
 export default {
   name: "Accueil",
   components: {
     createPost,
+    // modifyPost
+   
   },
-   props: ["post"],
 
   data() {
     return {
       posts: null,
       error: "",
+      TOKEN: sessionStorage.getItem("token"),
       userId: sessionStorage.getItem("userId"),
       userLevel: sessionStorage.getItem("userLevel"),
-    
+      titre:"",
+      contained:"",
     };
   },
 
@@ -72,34 +87,10 @@ export default {
       return date.toLocaleDateString("fr-FR", options);
     },
 
-    modifierPost(id) {
-      const TOKEN = sessionStorage.getItem("token");
-      const userId = parseInt(sessionStorage.getItem("userId"));
-      
-      axios
-
-        .create({
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + TOKEN,
-          },
-        })
-        .put(`http://localhost:3000/api/posts/${id}`, {
-          title: "",
-          contained: "",
-        })
-        .then((response) => {
-          alert(response.error);
-        })
-        .catch((err) => console.log(err));
-      window.location.href = `/Accueil?id=${userId}`;
-    },
-
     deletePost(id) {
-      const TOKEN = sessionStorage.getItem("token");
-      const userId = parseInt(sessionStorage.getItem("userId"));
+      const TOKEN = this.TOKEN;
+      const userId = this.userId;
       axios
-
         .delete(`http://localhost:3000/api/posts/${id}`, {
           headers: {
             "Content-Type": "application/json",
@@ -110,18 +101,18 @@ export default {
           alert(response.data.message);
         })
         .catch((err) => console.log(err));
+
       window.location.href = `/Accueil?id=${userId}`;
     },
   },
 
   //récupération des posts depuis la BDD via axios
   created() {
-    const TOKEN = sessionStorage.getItem("token");
     axios
       .create({
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + TOKEN,
+          Authorization: "Bearer " + this.TOKEN,
         },
       })
       .get("http://localhost:3000/api/posts")
@@ -129,6 +120,7 @@ export default {
         console.log(response.data);
         this.posts = response.data;
       })
+
       .catch((error) => console.log(error));
   },
 };
@@ -164,7 +156,8 @@ button {
 .card-title {
   color: #bc4c54;
   text-decoration: underline #d2646b;
-  text-transform: uppercase;
+  text-transform: capitalize;
+  font-family: cursive;
 }
 .card-text {
   width: 50%;
@@ -186,7 +179,19 @@ button {
 .postuserId {
   display: none;
 }
-#validerModif {
+.dateadd {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 50%;
+  margin: auto;
+}
+#contained {
+  text-transform: capitalize;
+  font-family: cursive;
+  font-style: oblique;
+}
+#modify{
   display: none;
 }
 </style>

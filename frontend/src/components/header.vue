@@ -67,9 +67,8 @@
             </button>
             <div class="dropdown show">
               <button
-              v-on:click="btnchangePSW"
+                v-on:click="btnchangePSW"
                 class="btn btn-secondary dropdown-toggle"
-                href="#"
                 role="button"
                 id="dropdownMenuLink"
                 data-toggle="dropdown"
@@ -103,10 +102,10 @@ export default {
     };
   },
   methods: {
-     btnchangePSW(){
-    document.getElementById('changepassword').style.visibility="visible";
-    document.getElementById('changepassword').style.height="auto";
-  },
+    btnchangePSW() {
+      document.getElementById("changepassword").style.visibility = "visible";
+      document.getElementById("changepassword").style.height = "auto";
+    },
     deletecompt() {
       const TOKEN = sessionStorage.getItem("token");
       const id = sessionStorage.getItem("userId");
@@ -120,20 +119,14 @@ export default {
         .delete(`http://localhost:3000/api/users/${id}`)
         .then((response) => {
           this.erreur = response.data;
-          sessionStorage.removeItem("userName");
-          sessionStorage.removeItem("userId");
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("userLevel");
+          sessionStorage.clear();
           alert("Votre compte vient d'etre supprimer");
           window.location.href = "/";
         })
         .catch((error) => console.log(error));
     },
     deconnexion() {
-      sessionStorage.removeItem("userName");
-      sessionStorage.removeItem("userId");
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("userLevel");
+      sessionStorage.clear();
       window.location.href = "/";
     },
   },
@@ -144,7 +137,7 @@ button {
   border: none;
   background-color: transparent;
   margin-right: 2vw;
-  color: #bc4c54;
+  color: white;
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -159,13 +152,26 @@ button:hover {
 .btnname {
   text-transform: capitalize;
 }
+#btnliste {
+  color: black;
+}
+#dropdownMenuLink:hover {
+  color: white;
+}
+#dropdownMenuLink {
+  color: black;
+}
 #btnliste:hover {
   height: auto;
   margin-top: 0;
   margin-bottom: 0;
+  color: white;
 }
-#changepassword{
+#changepassword {
   visibility: hidden;
   height: 0;
+}
+a {
+  color: white;
 }
 </style>

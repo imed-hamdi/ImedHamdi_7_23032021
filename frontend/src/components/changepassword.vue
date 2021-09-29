@@ -3,7 +3,12 @@
     <div class="input-group-prepend">
       <span class="input-group-text">Nouveau mot de passe :</span>
     </div>
-    <input v-model="password" type="password" class="form-control" />
+    <input
+      v-model="password"
+      type="password"
+      class="form-control"
+      aria-label="password"
+    />
     <button v-on:click="changePassword" type="button" class="btn btn-primary">
       Changer votre mot de passe
     </button>
@@ -11,7 +16,6 @@
       N.B : Le mot de passe doit contenir au moins 5 caratctes :
       miniscule,majuscule, chiffres et caracteres spéciaux
     </p>
-    <p id="erreur">{{ erreur }}</p>
   </div>
 </template>
 
@@ -21,7 +25,7 @@ export default {
   name: "changepassword",
   data() {
     return {
-      password:"",
+      password: "",
       erreur: "",
     };
   },
@@ -36,8 +40,8 @@ export default {
             Authorization: "Bearer " + TOKEN,
           },
         })
-        .put(`http://localhost:3000/api/users/${id}`,{
-          password :this.password,
+        .put(`http://localhost:3000/api/users/${id}`, {
+          password: this.password,
         })
         .then((response) => {
           console.log(response.data.message);
@@ -52,13 +56,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-group{
+.input-group {
   display: flex;
   padding: 1vw;
   align-items: center;
   justify-content: center;
 }
-#erreur{
+#erreur {
   color: red;
 }
 </style>
