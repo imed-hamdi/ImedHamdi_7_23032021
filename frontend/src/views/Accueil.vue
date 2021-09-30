@@ -3,19 +3,29 @@
     <div id="create">
       <createPost />
     </div>
-    <div id="container" v-for="post in posts" :key="post.id">
-
+    <div
+      id="container"
+      v-for="post in posts"
+      :class="{ editing: post.id === editing }"
+      :key="post.id"
+    >
       <div class="card-body">
-        <!-- <div id="modify">
-        <modifyPost />
-        </div> -->
         <div id="carte">
           <h4 id="title" class="card-title">
             {{ post.title }}
           </h4>
-          <p id="contained" class="card-text">
+          <p v-if="editing != post.id" id="contained" class="card-text">
             {{ post.contained }}
           </p>
+          <textarea
+            v-if="editing === post.id"
+            v-model="post.contained"
+            id="edit"
+            rows="5"
+            cols="33"
+            v-on:keyup.enter="ModifyPost(post.id)"
+          >
+          </textarea>
         </div>
         <span class="postuserId">{{ post.userId }} </span>
 
@@ -27,7 +37,10 @@
         <hr />
 
         <button
-          v-if="post.userId == userId || userLevel == '487f7b22f68312d2c1bbc93b1aea445b'"
+          v-if="
+            post.userId == userId ||
+            userLevel == '487f7b22f68312d2c1bbc93b1aea445b'
+          "
           v-on:click="deletePost(post.id)"
           type="button"
           class="btn btn-danger btnSupp"
@@ -35,10 +48,13 @@
           Supprimer
         </button>
         <button
-          v-if="post.userId == userId"
-          v-on:click="modifierPost(post.id)"
+          v-if="
+            post.userId == userId ||
+            userLevel == '487f7b22f68312d2c1bbc93b1aea445b'
+          "
+          v-on:click="editPost(post)"
           type="button"
-          class="btn btn-primary btnModif"
+          class="btn btn-primary btnSupp"
         >
           Modifier
         </button>
@@ -50,15 +66,11 @@
 <script>
 import axios from "axios";
 import createPost from "@/components/createPost.vue";
-// import modifyPost from "@/components/modifyPost.vue";
- 
 
 export default {
   name: "Accueil",
   components: {
     createPost,
-    // modifyPost
-   
   },
 
   data() {
@@ -68,12 +80,41 @@ export default {
       TOKEN: sessionStorage.getItem("token"),
       userId: sessionStorage.getItem("userId"),
       userLevel: sessionStorage.getItem("userLevel"),
-      titre:"",
-      contained:"",
+      editing: null,
+      title:"",
+      containedChanged:""
+      
     };
   },
 
   methods: {
+    ModifyPost(id) {
+     
+      axios
+        .create({
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + this.TOKEN,
+          },
+        })
+      
+        .put(`http://localhost:3000/api/posts/${id}`, {
+        title: this.title,
+        contained: "this.containedChanged"
+        })
+        .then((response) => {
+          console.log(response.data.message);
+          alert("Votre publication vient d'etre modifier");
+          window.location.href = `/Accueil?id=${id}`;
+        })
+        .catch((error) => console.log(error));
+    },
+    editPost(postId) {
+      this.editing = postId.id;
+      this.title=postId.title
+    
+      
+    },
     time(dateAdd) {
       const options = {
         weekday: "short",
@@ -191,7 +232,7 @@ button {
   font-family: cursive;
   font-style: oblique;
 }
-#modify{
+#modify {
   display: none;
 }
 </style>
