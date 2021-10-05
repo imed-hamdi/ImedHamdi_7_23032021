@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      user: sessionStorage.getItem("userName"),
+      user: localStorage.getItem("userName"),
       erreur: "",
     };
   },
@@ -107,8 +107,8 @@ export default {
       document.getElementById("changepassword").style.height = "auto";
     },
     deletecompt() {
-      const TOKEN = sessionStorage.getItem("token");
-      const id = sessionStorage.getItem("userId");
+      const TOKEN = localStorage.getItem("token");
+      const id = localStorage.getItem("userId");
       axios
         .create({
           headers: {
@@ -119,14 +119,14 @@ export default {
         .delete(`http://localhost:3000/api/users/${id}`)
         .then((response) => {
           this.erreur = response.data;
-          sessionStorage.clear();
+          localStorage.clear();
           alert("Votre compte vient d'etre supprimer");
           window.location.href = "/";
         })
         .catch((error) => console.log(error));
     },
     deconnexion() {
-      sessionStorage.clear();
+      localStorage.clear();
       window.location.href = "/";
     },
   },

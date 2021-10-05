@@ -11,7 +11,7 @@
           type="email"
           class="form-control"
           id="exampleInputEmail1"
-          aria-describedby="emailHelp"
+  
           v-model="email"
           placeholder="Entrez votre email"
         />
@@ -26,7 +26,10 @@
           placeholder="Entrez votre mot de passe"
         />
       </div>
-      <button  class="btn btn-primary" v-on:click="seConnecter">Se Connecter</button> <br />
+      <button class="btn btn-primary" v-on:click="seConnecter">
+        Se Connecter
+      </button>
+      <br />
       <br />
       <p>{{ error }}</p>
     </form>
@@ -59,10 +62,10 @@ export default {
         })
         .then((response) => {
           //envoi du token
-          sessionStorage.setItem("token", response.data.token);
-          sessionStorage.setItem("userName", response.data.user.firstName);
-          sessionStorage.setItem("userId", response.data.user.id);
-          sessionStorage.setItem("userLevel", response.data.user.Level);
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("userName", response.data.user.firstName);
+          localStorage.setItem("userId", response.data.user.id);
+          localStorage.setItem("userLevel", response.data.user.Level);
           window.location.href = `/Accueil?id=${response.data.user.id}`;
         })
         .catch((e) => {

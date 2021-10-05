@@ -31,7 +31,7 @@
           type="email"
           class="form-control"
           id="exampleInputEmail1"
-          aria-describedby="emailHelp"
+
           v-model="email"
           placeholder="Entrez votre email"
         />
@@ -79,7 +79,7 @@ export default {
         })
         .then((response) => {
           //envoi du token
-          sessionStorage.setItem("token", response.data.token);
+          localStorage.setItem("token", response.data.token);
           
         })
         .then(this.$router.push("/Login"))

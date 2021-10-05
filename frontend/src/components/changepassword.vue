@@ -16,6 +16,7 @@
       N.B : Le mot de passe doit contenir au moins 5 caratctes :
       miniscule,majuscule, chiffres et caracteres spéciaux
     </p>
+    <p>{{erreur}}</p>
   </div>
 </template>
 
@@ -31,8 +32,8 @@ export default {
   },
   methods: {
     changePassword() {
-      const TOKEN = sessionStorage.getItem("token");
-      const id = sessionStorage.getItem("userId");
+      const TOKEN = localStorage.getItem("token");
+      const id =localStorage.getItem("userId");
       axios
         .create({
           headers: {

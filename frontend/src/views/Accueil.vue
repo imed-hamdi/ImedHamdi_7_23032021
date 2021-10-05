@@ -32,7 +32,7 @@
         <hr />
         <div class="dateadd">
           <span id="postUserName">{{ post.userName }}</span>
-          {{ time(post.dateAdd) }}
+         {{time(post.dateAdd)}}
         </div>
         <hr />
 
@@ -54,7 +54,7 @@
           "
           v-on:click="editPost(post)"
           type="button"
-          class="btn btn-primary btnSupp"
+          class="btn btn-succes btnSupp"
         >
           Modifier
         </button>
@@ -77,19 +77,17 @@ export default {
     return {
       posts: null,
       error: "",
-      TOKEN: sessionStorage.getItem("token"),
-      userId: sessionStorage.getItem("userId"),
-      userLevel: sessionStorage.getItem("userLevel"),
+      TOKEN:localStorage.getItem("token"),
+      userId: localStorage.getItem("userId"),
+      userLevel: localStorage.getItem("userLevel"),
       editing: null,
       title:"",
-      containedChanged:""
-      
     };
   },
 
   methods: {
     ModifyPost(id) {
-     
+     let containedChanged =document.getElementById('edit').value
       axios
         .create({
           headers: {
@@ -100,11 +98,10 @@ export default {
       
         .put(`http://localhost:3000/api/posts/${id}`, {
         title: this.title,
-        contained: "this.containedChanged"
+        contained:containedChanged,
         })
         .then((response) => {
           console.log(response.data.message);
-          alert("Votre publication vient d'etre modifier");
           window.location.href = `/Accueil?id=${id}`;
         })
         .catch((error) => console.log(error));
@@ -149,6 +146,7 @@ export default {
 
   //récupération des posts depuis la BDD via axios
   created() {
+     
     axios
       .create({
         headers: {
@@ -160,6 +158,7 @@ export default {
       .then((response) => {
         console.log(response.data);
         this.posts = response.data;
+       
       })
 
       .catch((error) => console.log(error));
