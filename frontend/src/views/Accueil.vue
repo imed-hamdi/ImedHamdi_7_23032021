@@ -32,7 +32,7 @@
         <hr />
         <div class="dateadd">
           <span id="postUserName">{{ post.userName }}</span>
-         {{time(post.dateAdd)}}
+          {{ time(post.dateAdd) }}
         </div>
         <hr />
 
@@ -58,6 +58,25 @@
         >
           Modifier
         </button>
+        <input
+          class="form-control newCommntr"
+          type="text"
+          v-on:keyup.enter="sendCommntr(post.id)"
+          v-model="newCommntr"
+          placeholder="Ajouter un commentaires..."
+        />
+        <div
+          class="commntr"
+          v-for="commntaire in commentary"
+          :class="{ newCommntr: post.id === newCommntr }"
+          :key="commntaire.id"
+        >
+          <div v-if="post.id === commntaire.postId" class="cmnt">
+            <p>{{ commntaire.contained }}</p>
+            <!-- <p>{{ time(commntaire.dateAdd) }}</p> -->
+            <p>{{ commntaire.userName }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -77,17 +96,37 @@ export default {
     return {
       posts: null,
       error: "",
-      TOKEN:localStorage.getItem("token"),
+      TOKEN: localStorage.getItem("token"),
       userId: localStorage.getItem("userId"),
       userLevel: localStorage.getItem("userLevel"),
+      userName: localStorage.getItem("userName"),
       editing: null,
-      title:"",
+      title: "",
+      newCommntr: "",
+      commentary: "",
     };
   },
 
   methods: {
+    sendCommntr(id) {
+      axios
+        .post("http://localhost:3000/api/commentary", {
+          userId: this.userId,
+          postId: id,
+          userName: this.userName,
+          contained: this.newCommntr,
+        })
+        .then((response) => {
+          console.log(response.data.message);
+        })
+        .catch((e) => {
+          this.error = "Erreure" + e;
+        });
+      window.location.href = `/Accueil?id=${this.userId}`;
+    },
+
     ModifyPost(id) {
-     let containedChanged =document.getElementById('edit').value
+      let containedChanged = document.getElementById("edit").value;
       axios
         .create({
           headers: {
@@ -95,10 +134,10 @@ export default {
             Authorization: "Bearer " + this.TOKEN,
           },
         })
-      
+
         .put(`http://localhost:3000/api/posts/${id}`, {
-        title: this.title,
-        contained:containedChanged,
+          title: this.title,
+          contained: containedChanged,
         })
         .then((response) => {
           console.log(response.data.message);
@@ -108,9 +147,7 @@ export default {
     },
     editPost(postId) {
       this.editing = postId.id;
-      this.title=postId.title
-    
-      
+      this.title = postId.title;
     },
     time(dateAdd) {
       const options = {
@@ -146,7 +183,6 @@ export default {
 
   //récupération des posts depuis la BDD via axios
   created() {
-     
     axios
       .create({
         headers: {
@@ -156,9 +192,17 @@ export default {
       })
       .get("http://localhost:3000/api/posts")
       .then((response) => {
-        console.log(response.data);
         this.posts = response.data;
-       
+        console.log(this.posts);
+      })
+
+      .catch((error) => console.log(error));
+
+    axios
+      .get("http://localhost:3000/api/commentary")
+      .then((response) => {
+        this.commentary = response.data;
+        console.log(this.commentary);
       })
 
       .catch((error) => console.log(error));
@@ -233,5 +277,16 @@ button {
 }
 #modify {
   display: none;
+}
+.newCommntr {
+  width: 50%;
+  margin: auto;
+  border-radius: 10px;
+}
+.cmnt {
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+  margin: auto;
 }
 </style>
