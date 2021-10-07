@@ -54,27 +54,31 @@
           "
           v-on:click="editPost(post)"
           type="button"
-          class="btn btn-succes btnSupp"
+          class="btn btn-danger btnSupp"
         >
           Modifier
         </button>
         <input
           class="form-control newCommntr"
+          name="newcommentary"
           type="text"
           v-on:keyup.enter="sendCommntr(post.id)"
           v-model="newCommntr"
           placeholder="Ajouter un commentaires..."
         />
+
         <div
           class="commntr"
           v-for="commntaire in commentary"
           :class="{ newCommntr: post.id === newCommntr }"
           :key="commntaire.id"
         >
-          <div v-if="post.id === commntaire.postId" class="cmnt">
-            <p>{{ commntaire.contained }}</p>
-            <!-- <p>{{ time(commntaire.dateAdd) }}</p> -->
-            <p>{{ commntaire.userName }}</p>
+          <div class="listCommentaire">
+            <div v-if="post.id === commntaire.postId" class="cmnt">
+              <ul>
+                <li> <strong> {{ commntaire.userName }} </strong>: {{ commntaire.contained }}</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -122,7 +126,7 @@ export default {
         .catch((e) => {
           this.error = "Erreure" + e;
         });
-      window.location.href = `/Accueil?id=${this.userId}`;
+      window.location.href = `/Accueil`;
     },
 
     ModifyPost(id) {
@@ -141,7 +145,7 @@ export default {
         })
         .then((response) => {
           console.log(response.data.message);
-          window.location.href = `/Accueil?id=${id}`;
+          window.location.href = `/Accueil`;
         })
         .catch((error) => console.log(error));
     },
@@ -164,7 +168,7 @@ export default {
 
     deletePost(id) {
       const TOKEN = this.TOKEN;
-      const userId = this.userId;
+
       axios
         .delete(`http://localhost:3000/api/posts/${id}`, {
           headers: {
@@ -177,7 +181,7 @@ export default {
         })
         .catch((err) => console.log(err));
 
-      window.location.href = `/Accueil?id=${userId}`;
+      window.location.href = `/Accueil`;
     },
   },
 
@@ -197,7 +201,7 @@ export default {
       })
 
       .catch((error) => console.log(error));
-
+    //récupération des commentaires depuis la BDD via axios
     axios
       .get("http://localhost:3000/api/commentary")
       .then((response) => {
@@ -216,7 +220,7 @@ button {
 }
 .card {
   margin: auto;
-  width: 80%;
+  width: 90%;
   justify-content: center;
   align-items: center;
 }
@@ -244,7 +248,7 @@ button {
   font-family: cursive;
 }
 .card-text {
-  width: 50%;
+  width: 80%;
   margin: auto;
   text-align: center;
 }
@@ -285,8 +289,12 @@ button {
 }
 .cmnt {
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  width: 80%;
+  line-height: 0.5vw;
   margin: auto;
+}
+.listCommentaire{
+  margin-top: 0.5vw;
+  padding: 0.5vw;
 }
 </style>

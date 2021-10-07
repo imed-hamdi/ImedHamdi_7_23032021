@@ -66,7 +66,7 @@ export default {
           localStorage.setItem("userName", response.data.user.firstName);
           localStorage.setItem("userId", response.data.user.id);
           localStorage.setItem("userLevel", response.data.user.Level);
-          window.location.href = `/Accueil?id=${response.data.user.id}`;
+          window.location.href = `/Accueil`;
         })
         .catch((e) => {
           this.error = "Invalid username/password!" + e;

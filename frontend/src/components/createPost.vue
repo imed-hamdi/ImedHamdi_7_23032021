@@ -3,9 +3,9 @@
     <h3>Créer une publication :</h3>
     <form>
       <div class="form-group">
-        <label for='titre'>Titre  </label>
+        <label for="titre">Titre </label>
         <input
-        id="titre"
+          id="titre"
           type="text"
           class="form-control"
           v-model="title"
@@ -15,9 +15,9 @@
       </div>
 
       <div class="form-group">
-        <label for="post">Post  </label>
+        <label for="post">Post </label>
         <textarea
-        id="post"
+          id="post"
           v-model="contained"
           class="form-control"
           name="post"
@@ -27,14 +27,14 @@
         </textarea>
       </div>
     </form>
-      <button
-        v-on:click="createPost"
-        class="btn btn-danger btn-block"
-        title="poster"
-      >
-        Ajouter
-      </button>
-      <p>{{ error }}</p>
+    <button
+      v-on:click="createPost"
+      class="btn btn-danger btn-block"
+      title="poster"
+    >
+      Ajouter
+    </button>
+    <p>{{ error }}</p>
   </div>
 </template>
 
@@ -54,7 +54,7 @@ export default {
     createPost() {
       const TOKEN = localStorage.getItem("token");
       const id = localStorage.getItem("userId");
-      const username =localStorage.getItem("userName")
+      const username = localStorage.getItem("userName");
       axios
         .create({
           headers: {
@@ -66,7 +66,7 @@ export default {
           title: this.title,
           contained: this.contained,
           userId: id,
-          userName : username,
+          userName: username,
         })
         .then((response) => {
           console.log(response);
