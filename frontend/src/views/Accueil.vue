@@ -274,6 +274,12 @@ button {
   width: 50%;
   margin: auto;
 }
+@media only screen and (max-width: 600px) {
+  .dateadd {
+display: flex;
+flex-direction: column;
+  }
+}
 #contained {
   text-transform: capitalize;
   font-family: cursive;
