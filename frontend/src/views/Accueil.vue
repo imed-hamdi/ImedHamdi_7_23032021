@@ -67,19 +67,18 @@
           v-model="newCommntr"
           placeholder="Ajouter un commentaires..."
         />
-        <div class="lstcomnt">
-          <div
-            class="commntr"
-            v-for="commntaire in commentary"
-            :key="commntaire.id"
-          >
-            <div class="listCommentaire">
-              <div v-if="post.id === commntaire.postId" class="cmnt">
-                <p>
-                  <strong> {{ commntaire.userName }} </strong>:
-                </p>
-                <p>{{ commntaire.contained }}</p>
-              </div>
+
+        <div
+          class="commntr"
+          v-for="commntaire in commentary"
+          :key="commntaire.id"
+        >
+          <div class="listCommentaire">
+            <div v-if="post.id === commntaire.postId" class="cmnt">
+              <p>
+                <strong> {{ commntaire.userName }} </strong>:
+              </p>
+              <p>{{ commntaire.contained }}</p>
             </div>
           </div>
         </div>
