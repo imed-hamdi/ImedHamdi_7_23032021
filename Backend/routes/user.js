@@ -10,7 +10,4 @@ router.post('/login', validityUser, userController.login);
 router.put('/:id',auth,passwordupdate, userController.update);
 router.delete('/:id',auth, userController.delete);
 router.get('/:id',auth, userController.findById);
-
-
-
 module.exports = router;

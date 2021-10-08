@@ -1,7 +1,7 @@
 'use strict';
 const dbConn = require('../dbcnn');
 
-// Création  de l'objet Post 
+// Création  de l'objet Commentaire 
 var Commentary = function (commentary) {
     this.userId = commentary.userId;
     this.userName = commentary.userName;
@@ -10,7 +10,7 @@ var Commentary = function (commentary) {
     this.dateAdd = commentary.dateAdd;
 };
 
-// Créer un nouve au Post 
+// Créer un nouveau commentaire
 Commentary.create = function (newCommentary, result) {
     dbConn.query("INSERT INTO commentary set ?", newCommentary, function (err, res) {
         if (err) {
@@ -35,20 +35,9 @@ Commentary.findAll = function (result) {
     });
 };
 
-// Trouver un seul Post via son Id
-Commentary.findOne = function (id, result) {
-    dbConn.query("Select * FROM commentary WHERE id = ?", [id], (err, results) => {
-        if (err) {
-            console.log(err);
-            result(err, null);
-        } else {
-            result(null, results);
-        }
-    });
-};
 
 
-// Effacer un Post 
+// Effacer un commentaire 
 Commentary.delete = function (id, result) {
     dbConn.query("DELETE FROM commentary WHERE id = ?", [id], (err, results) => {
         if (err) {

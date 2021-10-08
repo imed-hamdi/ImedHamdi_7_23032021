@@ -9,16 +9,6 @@ exports.findAll = function (req, res) {
         res.send(commentary);
     });
 };
-exports.findOne = function (req, res) {
-    const id = req.params.id;
-    Commentary.findOne(id, (err, results) => {
-        if (err) {
-            res.send(err);
-        } else {
-            res.send(results)
-        }
-    });
-}
 
 exports.create = function (req, res) {
     const body = req.body;

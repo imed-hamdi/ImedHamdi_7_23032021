@@ -59,6 +59,7 @@
           Modifier
         </button>
         <input
+          :class="{ newCommntr: post.id === newCommntr }"
           class="form-control newCommntr"
           name="newcommentary"
           type="text"
@@ -66,18 +67,19 @@
           v-model="newCommntr"
           placeholder="Ajouter un commentaires..."
         />
-
-        <div
-          class="commntr"
-          v-for="commntaire in commentary"
-          :class="{ newCommntr: post.id === newCommntr }"
-          :key="commntaire.id"
-        >
-          <div class="listCommentaire">
-            <div v-if="post.id === commntaire.postId" class="cmnt">
-              <ul>
-                <li> <strong> {{ commntaire.userName }} </strong>: {{ commntaire.contained }}</li>
-              </ul>
+        <div class="lstcomnt">
+          <div
+            class="commntr"
+            v-for="commntaire in commentary"
+            :key="commntaire.id"
+          >
+            <div class="listCommentaire">
+              <div v-if="post.id === commntaire.postId" class="cmnt">
+                <p>
+                  <strong> {{ commntaire.userName }} </strong>:
+                </p>
+                <p>{{ commntaire.contained }}</p>
+              </div>
             </div>
           </div>
         </div>
@@ -112,6 +114,7 @@ export default {
   },
 
   methods: {
+    // Ecrire un nouveau commentaire
     sendCommntr(id) {
       axios
         .post("http://localhost:3000/api/commentary", {
@@ -128,7 +131,7 @@ export default {
         });
       window.location.href = `/Accueil`;
     },
-
+    // Modifier le post selectionner
     ModifyPost(id) {
       let containedChanged = document.getElementById("edit").value;
       axios
@@ -149,10 +152,13 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+    // Selectionner le post actif pour le modifier
     editPost(postId) {
       this.editing = postId.id;
       this.title = postId.title;
     },
+    // Changer le format de Date:Heure
+
     time(dateAdd) {
       const options = {
         weekday: "short",
@@ -165,6 +171,7 @@ export default {
       let date = new Date(dateAdd);
       return date.toLocaleDateString("fr-FR", options);
     },
+    // Effacer un Post
 
     deletePost(id) {
       const TOKEN = this.TOKEN;
@@ -274,10 +281,15 @@ button {
   width: 50%;
   margin: auto;
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
   .dateadd {
-display: flex;
-flex-direction: column;
+    display: flex;
+    flex-direction: column;
+  }
+  .cmnt {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 }
 #contained {
@@ -293,14 +305,23 @@ flex-direction: column;
   margin: auto;
   border-radius: 10px;
 }
+
 .cmnt {
   display: flex;
-  width: 80%;
+  width: 50%;
   line-height: 0.5vw;
   margin: auto;
-}
-.listCommentaire{
   margin-top: 0.5vw;
-  padding: 0.5vw;
+}
+.listCommentaire {
+  margin-top: 0.5vw;
+}
+.lstcomnt {
+  border: 1px solid black;
+  margin-top: 0.5vw;
+  width: 50%;
+  margin: auto;
+  padding: 0.3vw;
+  border-radius: 10px;
 }
 </style>
